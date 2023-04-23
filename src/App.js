@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles.css'
+import Temp from './Temp';
+import Btns from './Btns';
+import { useState } from 'react';
 
 function App() {
+  const [temperature, setTemperature] = useState(0)
+
+  const colors = ['#86b2e6', '#ffb386', '#ffff91']
+
+  const handleIncrease = () => {
+    setTemperature(temperature + 1)
+  }
+
+  const handleDecrease = () => {
+    setTemperature(temperature-1)
+  }
+
+  const handleBgChange = (temperature) => {
+    let backgroundColor
+    if(temperature < 0) {
+      backgroundColor = colors[0]
+    }
+
+    if(temperature > 0 && temperature <= 20) {
+      backgroundColor = colors[2]
+    }
+
+    if(temperature > 20) {
+      backgroundColor = colors[1]
+    }
+
+    return backgroundColor
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+     <div className='temp'>
+        <Temp temperature={temperature} backgroundColor={handleBgChange(temperature)}/>
+        <Btns increase={handleIncrease} decrease={handleDecrease}/>
+     </div>
+    </>
   );
 }
 
